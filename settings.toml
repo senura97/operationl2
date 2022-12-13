@@ -1,0 +1,10 @@
+['demo']
+
+aws_region="us-east-1"
+ami_id="ami-0574da719dca65348"
+min_count="1"
+max_count="1"
+instance_type="t2.micro"
+instance_names= ["Amber", "Red", "Green"]
+monitor_resources= ["CPUUtilization", ""]
+key_name="machine1"
