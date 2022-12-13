@@ -13,6 +13,7 @@ key_name = str(settings.key_name)
 
 security_params = {'aws_access_key_id': settings.ACCESS_KEY, 'aws_secret_access_key': settings.SECRET_KEY}
 #python dict here used to contain key ID and the access key these paramateres were taken from IAM user
+#testing the github
 
 
 def get_boto_client(service_name):
