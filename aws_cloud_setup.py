@@ -3,6 +3,7 @@ from config import settings
 import datetime
 import boto3
 from botocore.exceptions import ClientError
+import json
 
 aws_region = str(settings.aws_region)
 ami_id = str(settings.ami_id)
@@ -47,11 +48,11 @@ def get_all_running_ec2_resource(secure_policy):
         ]
 
         filtered_list = ec2_resource.instances.filter(Filters=filters_by)
-        #object method and another method. Second method is a special method
+#object method and another method. Second method is a special method
 
         for ec2_instance in filtered_list:
             list_of_running_ec2_ids.append(ec2_instance.id)
-            #checking running instances
+#checking running instances
 
     list_of_running_ec2_ids = []
 
@@ -80,11 +81,12 @@ def get_all_running_ec2_resource(secure_policy):
                         },
                     ]
             )
-#we create running instances
+
         fill_running_instance_list()
 
     return list_of_running_ec2_ids
 
+#we create running instances
 
 def create_security_policy(res):
 
@@ -92,7 +94,7 @@ def create_security_policy(res):
 
     try:
         response = ec2_client.create_security_group(
-            GroupName='demo123',
+            GroupName='demo12345678',
             Description='demo_description',
             VpcId=vpc_id
         )
@@ -159,8 +161,12 @@ for i, ec2_id in enumerate(temp_list):
 
     print(datapoints)
 
+
     if datapoints:
 
+        json_string = json.dumps({"data": datapoints}, indent=4, sort_keys=True, default=str)
+        with open("myjsonfile.json", "w") as outfile:
+            outfile.write(json_string)
         last_datapoint = sorted(datapoints, key=itemgetter('Timestamp'))[-1]
         utilization = last_datapoint['Average']
         load = round((utilization / 100.0), 3)
@@ -176,7 +182,7 @@ for i, ec2_id in enumerate(temp_list):
             alert_response = ses_client.send_email(
                 Destination={
                     'ToAddresses': [
-                        'awskid001@gmail.com'
+                        'aws.testing.senura@gmail.com'
                     ],
                 },
                 Message={
@@ -200,7 +206,7 @@ for i, ec2_id in enumerate(temp_list):
                         'Data': 'WARNING',
                     },
                 },
-                Source='awskid001@gmail.com',
+                Source='aws.testing.senura@gmail.com',
             )
 
             print("sent email for Amber Stakeholders")
@@ -211,7 +217,7 @@ for i, ec2_id in enumerate(temp_list):
             alert_response = ses_client.send_email(
                 Destination={
                     'ToAddresses': [
-                        'awskid001@gmail.com'
+                        'aws.testing.senura@gmail.com'
                     ],
                 },
                 Message={
@@ -235,7 +241,7 @@ for i, ec2_id in enumerate(temp_list):
                         'Data': 'WARNING',
                     },
                 },
-                Source='awskid001@gmail.com',
+                Source='aws.testing.senura@gmail.com',
             )
 
             print("sent email for Red Stakeholders")
